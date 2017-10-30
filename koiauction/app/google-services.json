@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "575016409362",
+    "firebase_url": "https://koi-auction.firebaseio.com",
+    "project_id": "koi-auction",
+    "storage_bucket": "koi-auction.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:575016409362:android:6cdad5071192a6df",
+        "android_client_info": {
+          "package_name": "kmitl.chanchai.koiauction"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "575016409362-fspq0bl0l9a90u0c91bfe345lsq4qg3t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kmitl.chanchai.koiauction",
+            "certificate_hash": "298e737169c4f23ecbc8e18b15bbd72685a1ac1c"
+          }
+        },
+        {
+          "client_id": "575016409362-2n0tg5v7mieoigdnvqiur709h8t1r360.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6c4vSwtTrTr8_b3iFNaF21Leeg71oVkw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "575016409362-2n0tg5v7mieoigdnvqiur709h8t1r360.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">koi auction</string>
+    <string name="facebook_app_id">1991456441124718</string>
+    <string name="fb_login_protocol_scheme">fb1991456441124718</string>
+    <string name="cancel_login">Login cancel</string>
+    <string name="error_login">ERROR</string>
+    <string name="firebase_error_login">firebase error login</string>
+
+</resources>
