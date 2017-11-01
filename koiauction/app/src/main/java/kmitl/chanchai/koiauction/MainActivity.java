@@ -14,6 +14,8 @@ import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.net.URL;
@@ -23,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView nameTextview;
     private TextView emailTextview;
     private ImageView imageView;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
         imageView = findViewById(R.id.acc_image);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        database = FirebaseDatabase.getInstance();
+        databaseref = database.getReference();
 
         if(user != null){
             String name = user.getDisplayName();
