@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -32,8 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
     private ProgressBar progressBar;
-    private Button btn_Login;
-    private Button btn_Signup;
+    private TextView text1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         loginButton = findViewById(R.id.login_button);
         progressBar = findViewById(R.id.progressBar);
-        btn_Login = findViewById(R.id.btn_Login);
-        btn_Signup = findViewById(R.id.btn_signup);
+        text1 = findViewById(R.id.text1);
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -76,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void handleFacebookAccessToken(AccessToken accessToken) {
         progressBar.setVisibility(View.VISIBLE);
+        text1.setVisibility(View.GONE);
         loginButton.setVisibility(View.GONE);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
@@ -85,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(!task.isComplete()){
                     Toast.makeText(getApplicationContext(), R.string.firebase_error_login, Toast.LENGTH_LONG).show();
                 }
+                text1.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
                 loginButton.setVisibility(View.VISIBLE);
             }
@@ -115,11 +116,4 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth.removeAuthStateListener(firebaseAuthListener);
     }
 
-    public void Signup(View view) {
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
-    }
-
-    public void Login(View view) {
-    }
 }

@@ -1,76 +1,87 @@
 package kmitl.chanchai.koiauction;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
 
-import java.net.URL;
+import kmitl.chanchai.koiauction.Tool.LoadImageFromUri;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    private TextView nameTextview;
-    private TextView emailTextview;
-    private ImageView imageView;
     private FirebaseDatabase database;
     private DatabaseReference databaseref;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle mToggle;
+    private NavigationView NavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        nameTextview = findViewById(R.id.acc_name);
-        emailTextview = findViewById(R.id.acc_email);
-        imageView = findViewById(R.id.acc_image);
+        drawerLayout = findViewById(R.id.headbar);
+        mToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        NavigationView = findViewById(R.id.nav_bar);
+        if (NavigationView != null) {
+            NavigationView.setNavigationItemSelectedListener(this);
+        }
+
+        setUsername();
+
+    }
+
+    private void setUsername() {
+        NavigationView navigationView = findViewById(R.id.nav_bar);
+        View hview = navigationView.getHeaderView(0);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         database = FirebaseDatabase.getInstance();
         databaseref = database.getReference();
+        TextView user_name = hview.findViewById(R.id.user_name);
+        TextView user_email = hview.findViewById(R.id.user_email);
+        ImageView user_picture = hview.findViewById(R.id.user_picture);
 
         if(user != null){
             String name = user.getDisplayName();
             String email = user.getEmail();
             Uri url = user.getPhotoUrl();
 
-            nameTextview.setText(name);
-            emailTextview.setText(email);
-            loadImageFromUri(url);
-
+            user_name.setText(name);
+            user_email.setText(email);
+            LoadImageFromUri.loadImageFromUri(url, this, user_picture);
         } else {
             goLoginScreen();
         }
-
     }
 
-    private void loadImageFromUri(Uri url) {
-        Picasso.with(this).load(url).placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
-                .into(imageView, new com.squareup.picasso.Callback() {
-                    @Override
-                    public void onSuccess() {
-
-                    }
-
-                    @Override
-                    public void onError() {
-
-                    }
-                });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(mToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void goLoginScreen() {
@@ -79,7 +90,20 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void logout(View view) {
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.home){
+            Toast.makeText(this, "home", Toast.LENGTH_SHORT).show();
+        }else if(id == R.id.add_auction){
+            Toast.makeText(this, "add auction", Toast.LENGTH_SHORT).show();
+        }else if(id == R.id.logout){
+            logout();
+        }
+        return false;
+    }
+
+    private void logout() {
         FirebaseAuth.getInstance().signOut();
         LoginManager.getInstance().logOut();
         goLoginScreen();
