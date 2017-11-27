@@ -23,13 +23,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import kmitl.chanchai.koiauction.Tool.LoadImageFromUri;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends BaseActivity{
 
-    private FirebaseDatabase database;
-    private DatabaseReference databaseref;
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle mToggle;
-    private NavigationView NavigationView;
+//    private FirebaseDatabase database;
+//    private DatabaseReference databaseref;
+//    private DrawerLayout drawerLayout;
+//    private ActionBarDrawerToggle mToggle;
+//    private NavigationView NavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,31 +51,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void setUsername() {
-        NavigationView navigationView = findViewById(R.id.nav_bar);
-        View hview = navigationView.getHeaderView(0);
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        database = FirebaseDatabase.getInstance();
-        databaseref = database.getReference();
-        TextView user_name = hview.findViewById(R.id.user_name);
-        TextView user_email = hview.findViewById(R.id.user_email);
-        ImageView user_picture = hview.findViewById(R.id.user_picture);
-
-        if(user != null){
-            String name = user.getDisplayName();
-            String email = user.getEmail();
-            Uri url = user.getPhotoUrl();
-
-            user_name.setText(name);
-            user_email.setText(email);
-            LoadImageFromUri.loadImageFromUri(url, this, user_picture);
-        } else {
-            goLoginScreen();
-        }
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(mToggle.onOptionsItemSelected(item)){
@@ -84,28 +59,78 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    private void goLoginScreen() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.home){
-            Toast.makeText(this, "home", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
         }else if(id == R.id.add_auction){
-            Toast.makeText(this, "add auction", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, AddActivity.class);
+            startActivity(intent);
         }else if(id == R.id.logout){
             logout();
         }
         return false;
     }
 
-    private void logout() {
-        FirebaseAuth.getInstance().signOut();
-        LoginManager.getInstance().logOut();
-        goLoginScreen();
-    }
+//    private void setUsername() {
+//        NavigationView navigationView = findViewById(R.id.nav_bar);
+//        View hview = navigationView.getHeaderView(0);
+//
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//
+//        database = FirebaseDatabase.getInstance();
+//        databaseref = database.getReference();
+//        TextView user_name = hview.findViewById(R.id.user_name);
+//        TextView user_email = hview.findViewById(R.id.user_email);
+//        ImageView user_picture = hview.findViewById(R.id.user_picture);
+//
+//        if(user != null){
+//            String name = user.getDisplayName();
+//            String email = user.getEmail();
+//            Uri url = user.getPhotoUrl();
+//
+//            user_name.setText(name);
+//            user_email.setText(email);
+//            LoadImageFromUri.loadImageFromUri(url, this, user_picture);
+//        } else {
+//            goLoginScreen();
+//        }
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if(mToggle.onOptionsItemSelected(item)){
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+//
+//    private void goLoginScreen() {
+//        Intent intent = new Intent(this, LoginActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
+//    }
+//
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        int id = item.getItemId();
+//        if(id == R.id.home){
+//            Toast.makeText(this, "home", Toast.LENGTH_SHORT).show();
+//        }else if(id == R.id.add_auction){
+//            Intent intent = new Intent(this, AddActivity.class);
+//            startActivity(intent);
+//        }else if(id == R.id.logout){
+//            logout();
+//        }
+//        return false;
+//    }
+//
+//    private void logout() {
+//        FirebaseAuth.getInstance().signOut();
+//        LoginManager.getInstance().logOut();
+//        goLoginScreen();
+//    }
 }
