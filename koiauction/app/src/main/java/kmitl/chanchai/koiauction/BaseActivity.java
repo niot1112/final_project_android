@@ -72,6 +72,15 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             goLoginScreen();
         }
     }
+    public String getUsername(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        database = FirebaseDatabase.getInstance();
+        databaseref = database.getReference();
+
+        String name = user.getDisplayName();
+        return name;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

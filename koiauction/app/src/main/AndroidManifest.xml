@@ -3,6 +3,9 @@
     package="kmitl.chanchai.koiauction">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -40,7 +43,8 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".AddActivity" />
-        <activity android:name=".BaseActivity"></activity>
+        <activity android:name=".BaseActivity" />
+        <activity android:name=".InPostActivity"></activity>
     </application>
 
 </manifest>
