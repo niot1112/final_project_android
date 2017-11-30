@@ -65,7 +65,7 @@ public class InPostActivity extends BaseActivity {
     }
 
     private void setPostInfo() {
-        databaseref.child("post").child(getUsername()).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseref.child("post").child(getUsername()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 postInfo.setType(dataSnapshot.child("type").getValue().toString());
