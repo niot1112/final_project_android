@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso;
 import kmitl.chanchai.koiauction.Model.PostInfo;
 
 public class InPostActivity extends BaseActivity {
-    private String image;
+    private String image, post_id;
     private PostInfo postInfo = new PostInfo();
     private TextView time, type, size, bidder_id, price, bidrate;
     private ImageView imageView;
@@ -49,6 +49,10 @@ public class InPostActivity extends BaseActivity {
         bidder_id = findViewById(R.id.bidder_id);
         price = findViewById(R.id.priceNow);
         bidrate = findViewById(R.id.bidRate);
+
+        Intent intent = getIntent();
+        post_id = intent.getStringExtra("post_id");
+
         setPostInfo();
     }
 
@@ -65,7 +69,7 @@ public class InPostActivity extends BaseActivity {
     }
 
     private void setPostInfo() {
-        databaseref.child("post").child(getUsername()).addValueEventListener(new ValueEventListener() {
+        databaseref.child("post").child(post_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 postInfo.setType(dataSnapshot.child("type").getValue().toString());
@@ -110,8 +114,8 @@ public class InPostActivity extends BaseActivity {
 
     public void onBid(View view) {
         int priceUpdate = Integer.parseInt(postInfo.getPrice())+Integer.parseInt(postInfo.getBidrate());
-        databaseref.child("post").child(getUsername()).child("price").setValue(String.valueOf(priceUpdate));
-        databaseref.child("post").child(getUsername()).child("bidder_id").setValue(getUsername().toString());
+        databaseref.child("post").child(post_id).child("price").setValue(String.valueOf(priceUpdate));
+        databaseref.child("post").child(post_id).child("bidder_id").setValue(getUsername().toString());
         setPostInfo();
         setPage();
     }

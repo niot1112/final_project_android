@@ -99,10 +99,10 @@ public class AddActivity extends BaseActivity {
     }
 
     public void onAdd(View view) {
-        user_id = getUsername();
-        Intent intent2 = new Intent(AddActivity.this, InPostActivity.class);
+//        user_id = getUsername();
+//        Intent intent2 = new Intent(AddActivity.this, InPostActivity.class);
         EdittextToString();
-        startActivity(intent2);
+//        startActivity(intent2);
         finish();
     }
 
@@ -121,6 +121,7 @@ public class AddActivity extends BaseActivity {
         databaseref.child("post").child(user_id).child("bidrate").setValue(Sbidrate);
         databaseref.child("post").child(user_id).child("time").setValue(Stime);
         databaseref.child("post").child(user_id).child("bidder_id").setValue(bidder);
+        databaseref.child("have_post").child(user_id);
     }
 
     public void onUpload(View view) {
