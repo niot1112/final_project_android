@@ -99,10 +99,7 @@ public class AddActivity extends BaseActivity {
     }
 
     public void onAdd(View view) {
-//        user_id = getUsername();
-//        Intent intent2 = new Intent(AddActivity.this, InPostActivity.class);
         EdittextToString();
-//        startActivity(intent2);
         finish();
     }
 
