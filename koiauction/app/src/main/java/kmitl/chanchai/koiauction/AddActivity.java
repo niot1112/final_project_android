@@ -35,7 +35,6 @@ public class AddActivity extends BaseActivity {
     private String Stype, Ssize, Sprice, Sbidrate, Stime, user_id;
 
     private static final int PREVIEW_REQEST_CODE = 1;
-    private static final int ADD_REQEST_CODE = 2;
 
     private StorageReference mStorage;
     private ProgressDialog mProgress;
@@ -100,8 +99,11 @@ public class AddActivity extends BaseActivity {
     }
 
     public void onAdd(View view) {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, ADD_REQEST_CODE);
+        user_id = getUsername();
+        Intent intent2 = new Intent(AddActivity.this, InPostActivity.class);
+        EdittextToString();
+        startActivity(intent2);
+        finish();
     }
 
     private void EdittextToString() {
@@ -111,9 +113,14 @@ public class AddActivity extends BaseActivity {
         Sprice = price.getText().toString();
         Sbidrate = bidrate.getText().toString();
         Stime = time.getText().toString();
+        String bidder = user_id.toString();
 
-        PostInfo postInfo = new PostInfo(Stype, Ssize, Sprice, Sbidrate, Stime);
-        databaseref.child("post").child(user_id).setValue(postInfo);
+        databaseref.child("post").child(user_id).child("type").setValue(Stype);
+        databaseref.child("post").child(user_id).child("size").setValue(Ssize);
+        databaseref.child("post").child(user_id).child("price").setValue(Sprice);
+        databaseref.child("post").child(user_id).child("bidrate").setValue(Sbidrate);
+        databaseref.child("post").child(user_id).child("time").setValue(Stime);
+        databaseref.child("post").child(user_id).child("bidder_id").setValue(bidder);
     }
 
     public void onUpload(View view) {
@@ -137,11 +144,6 @@ public class AddActivity extends BaseActivity {
 
         if (requestCode == PREVIEW_REQEST_CODE && resultCode == RESULT_OK)
         {
-            Uri uri = data.getData();
-            Picasso.with(AddActivity.this).load(uri).fit().centerCrop().into(imageView);
-        }
-
-        if(requestCode == ADD_REQEST_CODE && resultCode == RESULT_OK){
             mProgress.setMessage("Uploading Image");
             mProgress.show();
 
@@ -157,13 +159,10 @@ public class AddActivity extends BaseActivity {
                     mProgress.dismiss();
 
                     Uri download_uri = taskSnapshot.getDownloadUrl();
+                    databaseref.child("post").child(user_id).child("image").setValue(download_uri.toString());
                     Picasso.with(AddActivity.this).load(download_uri).fit().centerCrop().into(imageView);
 
                     Toast.makeText(AddActivity.this, "Uploading finished...", Toast.LENGTH_LONG).show();
-                    Intent intent2 = new Intent(AddActivity.this, InPostActivity.class);
-                    EdittextToString();
-                    startActivity(intent2);
-                    finish();
                 }
             });
         }
